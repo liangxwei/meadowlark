@@ -5,17 +5,28 @@ var handlebars = require('express-handlebars');
 
 var app = express();
 
+var fortunes = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+];
+
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
+
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
     res.render('home');
 });
 
 app.get('/about', function(req, res) {
-    res.render('about');
+    var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+    res.render('about', { fortune: randomFortune });
 });
 
 app.use(function(req, res, next) {
