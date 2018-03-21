@@ -1,17 +1,10 @@
 var express = require('express');
+var fortune = require('./lib/fortune.js');
 
 // create view engine
 var handlebars = require('express-handlebars');
 
 var app = express();
-
-var fortunes = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E"
-];
 
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -25,8 +18,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/about', function(req, res) {
-    var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-    res.render('about', { fortune: randomFortune });
+    res.render('about', { fortune: fortune.getFortune() });
 });
 
 app.use(function(req, res, next) {
